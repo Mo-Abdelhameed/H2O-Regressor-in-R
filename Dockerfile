@@ -12,10 +12,11 @@ RUN chmod +x /opt/entry_point.sh
 COPY ./requirements.txt /opt/
 
 # Install R packages with specific versions from requirements.txt
+
 RUN while read p; do \
-      PKG=$(echo $p | cut -d'@' -f1); \
-      VER=$(echo $p | cut -d'@' -f2); \
-      R -e "devtools::install_version('$PKG', version='$VER', repos='https://cloud.r-project.org/')"; \
+    PKG=$(echo $p | cut -d'@' -f1); \
+    VER=$(echo $p | cut -d'@' -f2); \
+    R -e "devtools::install_version('$PKG', version='$VER', repos='https://cloud.r-project.org/')"; \
     done <opt/requirements.txt
 
 WORKDIR /opt/src
