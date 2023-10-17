@@ -59,7 +59,7 @@ automl_models <- h2o.automl(
   y = target_feature,
   training_frame = train,
   leaderboard_frame = test,
-  max_runtime_secs = 60,
+  max_runtime_secs = 120,
   max_models=10,
   project_name = "automl_regression",
   seed=42
