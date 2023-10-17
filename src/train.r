@@ -49,7 +49,7 @@ col_names <- unlist(strsplit(header_line, split = ",")) # assuming ',' is the de
 # Read the CSV with the exact column names
 df <- read.csv(file.path(TRAIN_DIR, file_name), skip = 0, col.names = col_names, check.names=FALSE)
 
-splits <- h2o.splitFrame(as.h2o(df), ratios = 0.95, seed = 1234)
+splits <- h2o.splitFrame(as.h2o(df), ratios = 0.95, seed = 42)
 train <- splits[[1]]
 test <- splits[[2]]
 
@@ -59,8 +59,10 @@ automl_models <- h2o.automl(
   y = target_feature,
   training_frame = train,
   leaderboard_frame = test,
-  max_runtime_secs = 60,  # Set a maximum run time in seconds
-  project_name = "automl_regression"
+  max_runtime_secs = 60,
+  max_models=10,
+  project_name = "automl_regression",
+  seed=42
 )
 
 leaderboard <- automl_models@leaderboard
