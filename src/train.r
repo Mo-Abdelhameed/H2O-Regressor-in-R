@@ -6,14 +6,15 @@ h2o.init()
 
 # Define directories and paths
 
-ROOT_DIR <- dirname(getwd())
+ROOT_DIR <- getwd() #dirname(getwd())
 MODEL_INPUTS_OUTPUTS <- file.path(ROOT_DIR, 'model_inputs_outputs')
 INPUT_DIR <- file.path(MODEL_INPUTS_OUTPUTS, "inputs")
 INPUT_SCHEMA_DIR <- file.path(INPUT_DIR, "schema")
 DATA_DIR <- file.path(INPUT_DIR, "data")
 TRAIN_DIR <- file.path(DATA_DIR, "training")
 MODEL_ARTIFACTS_PATH <- file.path(MODEL_INPUTS_OUTPUTS, "model", "artifacts")
-PREDICTOR_FILE_PATH <- file.path(MODEL_ARTIFACTS_PATH, "predictor", "predictor.rds")
+PREDICTOR_DIR_PATH <- file.path(MODEL_ARTIFACTS_PATH, "predictor")
+PREDICTOR_FILE_PATH <- file.path(MODEL_ARTIFACTS_PATH, "predictor_path.rds")
 
 
 if (!dir.exists(MODEL_ARTIFACTS_PATH)) {
@@ -58,13 +59,13 @@ automl_models <- h2o.automl(
   y = target_feature,
   training_frame = train,
   leaderboard_frame = test,
-  max_runtime_secs = 60,  # Set a maximum run time in seconds
+  max_runtime_secs = 5,  # Set a maximum run time in seconds
   project_name = "automl_regression"
 )
 
 leaderboard <- automl_models@leaderboard
-print(leaderboard)
 
 best_model <- automl_models@leader
-saveRDS(best_model, PREDICTOR_FILE_PATH)
+path = h2o.saveModel(object = best_model, path = PREDICTOR_DIR_PATH, force = TRUE)
 
+saveRDS(path, PREDICTOR_FILE_PATH)

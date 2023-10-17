@@ -1,11 +1,11 @@
+# Required Libraries
 library(jsonlite)
 library(h2o)
 
 h2o.init()
 
-
 # Paths
-ROOT_DIR <- dirname(getwd())
+ROOT_DIR <- getwd() #dirname(getwd())
 MODEL_INPUTS_OUTPUTS <- file.path(ROOT_DIR, 'model_inputs_outputs')
 INPUT_DIR <- file.path(MODEL_INPUTS_OUTPUTS, "inputs")
 OUTPUT_DIR <- file.path(MODEL_INPUTS_OUTPUTS, "outputs")
@@ -14,7 +14,7 @@ DATA_DIR <- file.path(INPUT_DIR, "data")
 TRAIN_DIR <- file.path(DATA_DIR, "training")
 TEST_DIR <- file.path(DATA_DIR, "testing")
 MODEL_ARTIFACTS_PATH <- file.path(MODEL_INPUTS_OUTPUTS, "model", "artifacts")
-PREDICTOR_FILE_PATH <- file.path(MODEL_ARTIFACTS_PATH, "predictor", "predictor.rds")
+PREDICTOR_FILE_PATH <- file.path(MODEL_ARTIFACTS_PATH, "predictor_path.rds")
 PREDICTIONS_DIR <- file.path(OUTPUT_DIR, 'predictions')
 PREDICTIONS_FILE <- file.path(PREDICTIONS_DIR, 'predictions.csv')
 
@@ -47,11 +47,10 @@ df <- read.csv(file_name, skip = 0, col.names = col_names, check.names=FALSE)
 
 ids <- df[[id_feature]]
 
+PREDICTOR_FILE_PATH = readRDS(PREDICTOR_FILE_PATH)
+model <- h2o.loadModel(path = PREDICTOR_FILE_PATH)
 
-
-
-
-model <- readRDS(PREDICTOR_FILE_PATH)
+# model <- readRDS(PREDICTOR_FILE_PATH)
 predictions <- h2o.predict(model, newdata = as.h2o(df))
 predictions_df <- as.data.frame(predictions)
 predictions_df[id_feature] <- ids
