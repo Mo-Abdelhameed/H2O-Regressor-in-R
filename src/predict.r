@@ -3,6 +3,7 @@ library(jsonlite)
 library(h2o)
 
 h2o.init()
+set.seed(42)
 
 # Paths
 ROOT_DIR <- dirname(getwd())

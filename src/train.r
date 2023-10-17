@@ -3,9 +3,9 @@ library(jsonlite)
 library(h2o)
 
 h2o.init()
+set.seed(42)
 
 # Define directories and paths
-
 ROOT_DIR <- dirname(getwd())
 MODEL_INPUTS_OUTPUTS <- file.path(ROOT_DIR, 'model_inputs_outputs')
 INPUT_DIR <- file.path(MODEL_INPUTS_OUTPUTS, "inputs")
@@ -59,7 +59,7 @@ automl_models <- h2o.automl(
   y = target_feature,
   training_frame = train,
   leaderboard_frame = test,
-  max_runtime_secs = 120,  # Set a maximum run time in seconds
+  max_runtime_secs = 60,  # Set a maximum run time in seconds
   project_name = "automl_regression"
 )
 
