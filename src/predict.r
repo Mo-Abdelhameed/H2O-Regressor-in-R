@@ -51,7 +51,6 @@ ids <- df[[id_feature]]
 PREDICTOR_FILE_PATH = readRDS(PREDICTOR_FILE_PATH)
 model <- h2o.loadModel(path = PREDICTOR_FILE_PATH)
 
-# model <- readRDS(PREDICTOR_FILE_PATH)
 predictions <- h2o.predict(model, newdata = as.h2o(df))
 predictions_df <- as.data.frame(predictions)
 predictions_df[id_feature] <- ids
