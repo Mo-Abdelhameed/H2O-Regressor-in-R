@@ -4,6 +4,12 @@ RUN install2.r --error \
     --deps TRUE \
     renv
 
+RUN apt-get -y update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    dos2unix \
+    default-jre \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY src ./opt/src
 
 COPY ./entry_point.sh /opt/
