@@ -13,11 +13,9 @@ COPY ./requirements.txt /opt/
 
 # Install R packages with specific versions from requirements.txt
 
-RUN while read p; do \
-    PKG=$(echo $p | cut -d'@' -f1); \
-    VER=$(echo $p | cut -d'@' -f2); \
-    R -e "devtools::install_version('$PKG', version='$VER', repos='https://cloud.r-project.org/')"; \
-    done <opt/requirements.txt
+RUN R -e "devtools::install_version('h2o', version = '3.42.0.2', repos = 'http://cran.rstudio.com/')"
+RUN R -e "devtools::install_version('jsonlite', version='1.8.7', repos='https://cloud.r-project.org/')"
+
 
 WORKDIR /opt/src
 RUN chown -R 1000:1000 /opt/src

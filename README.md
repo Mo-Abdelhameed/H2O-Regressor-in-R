@@ -1,4 +1,4 @@
-# R-Regression-Template
+# H2O Regression in R
 
 ## This repository is a dockerized implementation of the re-usable regression model.
 
